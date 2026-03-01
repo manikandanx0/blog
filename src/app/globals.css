@@ -1,0 +1,292 @@
+/* ===============================
+   RESET
+================================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* ===============================
+   ROOT VARIABLES
+================================ */
+
+:root {
+    --bg-main: #0e0e12;
+    --bg-secondary: #16161d;
+    --bg-soft: #1c1c24;
+    --text-primary: #f2f2f5;
+    --text-muted: #9ca3af;
+    --divider: #24242c;
+    --accent: #7c3aed;
+    --accent-soft: #a78bfa;
+}
+
+/* ===============================
+   BASE TYPOGRAPHY
+================================ */
+
+body {
+    background: var(--bg-main);
+    color: var(--text-primary);
+    margin: 0;
+    font-family: var(--font-body), var(--font-jp), serif;
+    font-size: 18px;
+    line-height: 1.75;
+    font-optical-sizing: auto;
+}
+
+/* ===============================
+   LAYOUT
+================================ */
+.divider {
+    border: none;
+    border-top: 1px solid var(--divider);
+    margin: 64px 0;
+}
+
+
+.container {
+  max-width: 720px;
+  margin-left: clamp(24px, 10vw, 160px);
+  margin-right: 24px;
+  padding-top: 120px;
+  padding-bottom: 100px;
+}
+
+.section {
+  margin-top: 96px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--divider);
+  margin: 64px 0;
+}
+/* ===============================
+   HEADINGS
+================================ */
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--font-display), serif;
+    margin: 0 0 24px 0;
+}
+
+h1 {
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 1.1;
+    letter-spacing: 0.03em;
+}
+
+h2 {
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 1.2;
+}
+
+h3 {
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1.3;
+}
+
+h4 {
+    font-weight: 500;
+    font-size: 22px;
+}
+
+/* ===============================
+   PARAGRAPHS & TEXT
+================================ */
+
+p {
+    margin: 0 0 24px 0;
+}
+
+.small,
+.meta {
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* ===============================
+   LINKS
+================================ */
+
+a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    color: var(--accent);
+}
+
+
+
+/* ===============================
+   LISTS
+================================ */
+
+ul,
+ol {
+    padding-left: 1.5rem;
+    margin-bottom: 24px;
+}
+
+li {
+    margin-bottom: 12px;
+}
+
+/* ===============================
+   BLOCKQUOTE
+================================ */
+
+blockquote {
+    font-family: var(--font-display), serif;
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 1.3;
+
+    margin: 64px 0;
+    padding-left: 24px;
+
+    border-left: 2px solid var(--accent);
+}
+
+/* ===============================
+   CODE
+================================ */
+
+code {
+    font-family: "Google Sans Code", monospace;
+    font-size: 0.95em;
+    background: var(--bg-soft);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+pre {
+    background: var(--bg-soft);
+    border: 1px solid var(--divider);
+    padding: 24px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 32px;
+}
+
+pre code {
+    background: none;
+    padding: 0;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* ===============================
+   IMAGES
+================================ */
+
+img {
+    max-width: 100%;
+    display: block;
+    margin: 40px 0;
+    border-radius: 6px;
+}
+
+/* ===============================
+   NAVIGATION
+================================ */
+
+.nav {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 64px;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.nav a {
+    border-bottom: none;
+}
+
+.nav a:hover {
+    color: var(--accent);
+}
+
+/* ===============================
+   POST LIST ITEM
+================================ */
+
+.post-item {
+    margin-bottom: 48px;
+}
+
+.post-item h3 {
+    margin-bottom: 8px;
+}
+
+.post-item:hover h3 {
+    transform: translateX(4px);
+    transition: transform 0.2s ease;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 768px) {
+    .container {
+        padding: 80px 20px 60px;
+    }
+
+    h1 {
+        font-size: 44px;
+    }
+
+    h2 {
+        font-size: 32px;
+    }
+
+    h3 {
+        font-size: 22px;
+    }
+
+    body {
+        font-size: 16px;
+    }
+
+    blockquote {
+        font-size: 24px;
+    }
+}
+
+.post-item h3 {
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.post-item:hover h3 {
+  transform: translateX(6px);
+  color: var(--accent);
+}
