@@ -20,18 +20,56 @@ body {
 }
 
 /* ===============================
-   ROOT VARIABLES
+   ROOT VARIABLES — LIGHT (default)
 ================================ */
 
 :root {
-    --bg-main: #0e0e12;
-    --bg-secondary: #16161d;
-    --bg-soft: #1c1c24;
-    --text-primary: #f2f2f5;
-    --text-muted: #9ca3af;
-    --divider: #24242c;
-    --accent: #7c3aed;
-    --accent-soft: #a78bfa;
+    --bg-main: #f5f0e8;
+    --bg-secondary: #ede6d6;
+    --bg-soft: #faf7f0;
+    --text-primary: #1a1208;
+    --text-secondary: #3d2e12;
+    --text-muted: #7a6a4f;
+    --divider: #c5b89a;
+
+    /* riso accent palette */
+    --accent: #c0392b;        /* riso red */
+    --accent-soft: #e07060;
+    --accent-teal: #1a6b5c;   /* riso teal */
+    --accent-yellow: #e8a020; /* riso yellow */
+    --accent-stamp: #8b2fc9;  /* riso purple */
+
+    /* font roles */
+    --f-display: var(--font-display), serif;       /* Playfair Display — titles */
+    --f-stamp:   var(--font-stamp), serif;          /* Special Elite — labels, UI chrome */
+    --f-body:    var(--font-body), monospace;       /* Courier Prime — body text */
+    --f-mono:    var(--font-mono), monospace;       /* Space Mono — code */
+    --f-jp:      var(--font-jp), serif;             /* Noto Serif JP — japanese */
+
+    /* grain texture */
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+}
+
+/* ===============================
+   DARK THEME
+================================ */
+
+[data-theme="dark"] {
+    --bg-main: #0f0b06;
+    --bg-secondary: #1a1408;
+    --bg-soft: #140f07;
+    --text-primary: #f0e8d0;
+    --text-secondary: #d4c4a0;
+    --text-muted: #8a7a60;
+    --divider: #2e2416;
+
+    --accent: #e05a4a;
+    --accent-soft: #f07060;
+    --accent-teal: #3ab89a;
+    --accent-yellow: #f0b840;
+    --accent-stamp: #b06adf;
+
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
 }
 
 /* ===============================
@@ -41,74 +79,102 @@ body {
 body {
     background: var(--bg-main);
     color: var(--text-primary);
-    margin: 0;
-    font-family: var(--font-body), var(--font-jp), serif;
-    font-size: 18px;
-    line-height: 1.75;
-    font-optical-sizing: auto;
+    font-family: var(--f-body);
+    font-size: 16px;
+    line-height: 1.8;
+    position: relative;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* paper grain overlay */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: var(--grain);
+    background-size: 200px 200px;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.45;
 }
 
 /* ===============================
    LAYOUT
 ================================ */
-.divider {
-    border: none;
-    border-top: 1px solid var(--divider);
-    margin: 64px 0;
-}
-
 
 .container {
-  max-width: 720px;
-  margin-left: clamp(24px, 10vw, 160px);
-  margin-right: 24px;
-  padding-top: 120px;
-  padding-bottom: 100px;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 100px 32px 100px;
 }
 
 .section {
-  margin-top: 96px;
+    margin-top: 80px;
 }
 
-hr {
-  border: none;
-  border-top: 1px solid var(--divider);
-  margin: 64px 0;
+/* dashed divider — zine feel */
+hr,
+.divider {
+    border: none;
+    border-top: 1px dashed var(--divider);
+    margin: 56px 0;
 }
+
+/* double-rule divider for section breaks */
+.divider-heavy {
+    border: none;
+    border-top: 3px double var(--divider);
+    margin: 64px 0;
+}
+
+/* dash-pattern rule (header style) */
+.divider-dash {
+    height: 3px;
+    background: repeating-linear-gradient(
+        90deg,
+        var(--text-primary) 0px, var(--text-primary) 6px,
+        transparent 6px, transparent 12px
+    );
+    opacity: 0.2;
+    margin: 20px 0;
+}
+
 /* ===============================
    HEADINGS
 ================================ */
 
-h1,
-h2,
-h3,
-h4 {
-    font-family: var(--font-display), serif;
-    margin: 0 0 24px 0;
+h1, h2, h3, h4 {
+    font-family: var(--f-display);
+    margin: 0 0 20px 0;
+    color: var(--text-primary);
 }
 
 h1 {
     font-weight: 700;
-    font-size: 64px;
-    line-height: 1.1;
-    letter-spacing: 0.03em;
+    font-size: clamp(36px, 7vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    display: inline-block;
+    transform: rotate(-0.3deg);
 }
 
 h2 {
     font-weight: 600;
-    font-size: 40px;
+    font-size: clamp(26px, 4vw, 40px);
     line-height: 1.2;
 }
 
 h3 {
-    font-weight: 500;
-    font-size: 28px;
+    font-weight: 700;
+    font-size: clamp(18px, 2.5vw, 24px);
     line-height: 1.3;
 }
 
 h4 {
-    font-weight: 500;
-    font-size: 22px;
+    font-weight: 400;
+    font-size: 18px;
+    font-style: italic;
 }
 
 /* ===============================
@@ -116,15 +182,34 @@ h4 {
 ================================ */
 
 p {
-    margin: 0 0 24px 0;
+    margin: 0 0 20px 0;
+    color: var(--text-secondary);
 }
 
-.small,
-.meta {
-    font-size: 14px;
-    letter-spacing: 0.08em;
+/* stamp-style label — use for category tags, section labels */
+.label {
+    font-family: var(--f-stamp);
+    font-size: 10px;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--text-muted);
+}
+
+/* legacy .small / .meta support */
+.small,
+.meta {
+    font-family: var(--f-stamp);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* japanese text */
+.jp {
+    font-family: var(--f-jp);
+    font-size: 1.05em;
+    line-height: 2;
 }
 
 /* ===============================
@@ -135,27 +220,24 @@ a {
     color: inherit;
     text-decoration: none;
     border-bottom: 1px solid var(--accent);
-    transition: all 0.2s ease;
+    transition: color 0.2s ease;
 }
 
 a:hover {
     color: var(--accent);
 }
 
-
-
 /* ===============================
    LISTS
 ================================ */
 
-ul,
-ol {
+ul, ol {
     padding-left: 1.5rem;
     margin-bottom: 24px;
 }
 
 li {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 /* ===============================
@@ -163,15 +245,17 @@ li {
 ================================ */
 
 blockquote {
-    font-family: var(--font-display), serif;
-    font-size: 36px;
-    font-weight: 500;
-    line-height: 1.3;
-
-    margin: 64px 0;
-    padding-left: 24px;
-
-    border-left: 2px solid var(--accent);
+    font-family: var(--f-display);
+    font-size: clamp(20px, 3vw, 28px);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.4;
+    margin: 48px 0;
+    padding: 16px 24px;
+    border-left: 3px solid var(--accent);
+    background: var(--bg-secondary);
+    transform: rotate(-0.4deg);
+    color: var(--text-primary);
 }
 
 /* ===============================
@@ -179,18 +263,19 @@ blockquote {
 ================================ */
 
 code {
-    font-family: "Google Sans Code", monospace;
-    font-size: 0.95em;
-    background: var(--bg-soft);
-    padding: 2px 6px;
-    border-radius: 4px;
+    font-family: var(--f-mono);
+    font-size: 0.88em;
+    background: var(--bg-secondary);
+    color: var(--accent-teal);
+    padding: 2px 7px;
+    border-radius: 2px;
 }
 
 pre {
-    background: var(--bg-soft);
+    background: var(--bg-secondary);
     border: 1px solid var(--divider);
     padding: 24px;
-    border-radius: 8px;
+    border-radius: 2px;
     overflow-x: auto;
     margin-bottom: 32px;
 }
@@ -198,8 +283,9 @@ pre {
 pre code {
     background: none;
     padding: 0;
-    font-size: 15px;
-    line-height: 1.6;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text-primary);
 }
 
 /* ===============================
@@ -210,7 +296,7 @@ img {
     max-width: 100%;
     display: block;
     margin: 40px 0;
-    border-radius: 6px;
+    border-radius: 2px;
 }
 
 /* ===============================
@@ -219,16 +305,18 @@ img {
 
 .nav {
     display: flex;
-    gap: 32px;
-    margin-bottom: 64px;
-    font-size: 14px;
-    letter-spacing: 0.08em;
+    gap: 28px;
+    margin-bottom: 56px;
+    font-family: var(--f-stamp);
+    font-size: 10px;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--text-muted);
 }
 
 .nav a {
     border-bottom: none;
+    transition: color 0.2s;
 }
 
 .nav a:hover {
@@ -240,16 +328,165 @@ img {
 ================================ */
 
 .post-item {
-    margin-bottom: 48px;
+    margin-bottom: 0;
+    padding: 20px 0;
+    border-bottom: 1px dashed var(--divider);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: start;
+    transition: transform 0.15s ease;
+}
+
+.post-item:hover {
+    transform: translateX(4px);
 }
 
 .post-item h3 {
-    margin-bottom: 8px;
+    font-family: var(--f-display);
+    font-size: clamp(17px, 2.5vw, 22px);
+    font-weight: 700;
+    margin-bottom: 6px;
+    transition: color 0.2s ease;
 }
 
 .post-item:hover h3 {
-    transform: translateX(4px);
-    transition: transform 0.2s ease;
+    color: var(--accent);
+    transform: none; /* parent handles the shift */
+}
+
+/* post category label */
+.post-item .post-category {
+    font-family: var(--f-stamp);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-teal);
+    margin-bottom: 4px;
+}
+
+/* post date */
+.post-item .post-date {
+    font-family: var(--f-body);
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    text-align: right;
+}
+
+/* post index number (skewed accent) */
+.post-item .post-num {
+    font-family: var(--f-stamp);
+    font-size: 11px;
+    color: var(--accent-yellow);
+    display: block;
+    transform: rotate(3deg);
+    margin-bottom: 4px;
+    text-align: right;
+}
+
+/* ===============================
+   TAGS
+================================ */
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.tag {
+    font-family: var(--f-body);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    border: 1px solid var(--divider);
+    padding: 2px 8px;
+    border-bottom: none; /* override global <a> rule if tag is a link */
+}
+
+a.tag:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+/* ===============================
+   STAMP ORNAMENT
+================================ */
+
+/* inline rotated box — use for dates, "new", issue numbers */
+.stamp {
+    display: inline-block;
+    border: 2px solid var(--accent-yellow);
+    padding: 3px 10px;
+    font-family: var(--f-stamp);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-yellow);
+    transform: rotate(2.5deg);
+    opacity: 0.85;
+}
+
+/* circle stamp variant */
+.stamp-circle {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--accent-stamp);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--f-stamp);
+    font-size: 8px;
+    color: var(--accent-stamp);
+    letter-spacing: 0.05em;
+    text-align: center;
+    line-height: 1.2;
+    transform: rotate(-8deg);
+    flex-shrink: 0;
+}
+
+/* ===============================
+   SECTION LABEL (with rule)
+================================ */
+
+.section-label {
+    font-family: var(--f-stamp);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--divider);
+}
+
+/* ===============================
+   FEATURED POST
+================================ */
+
+.post-item.featured {
+    background: var(--bg-secondary);
+    padding: 20px;
+    border: none;
+    border-left: 4px solid var(--accent);
+    transform: rotate(-0.3deg);
+    grid-template-columns: 1fr auto;
+    margin-bottom: 8px;
+}
+
+.post-item.featured:hover {
+    transform: rotate(0deg) translateX(4px);
 }
 
 /* ===============================
@@ -258,35 +495,86 @@ img {
 
 @media (max-width: 768px) {
     .container {
-        padding: 80px 20px 60px;
-    }
-
-    h1 {
-        font-size: 44px;
-    }
-
-    h2 {
-        font-size: 32px;
-    }
-
-    h3 {
-        font-size: 22px;
-    }
-
-    body {
-        font-size: 16px;
+        margin-left: 0;
+        padding: 72px 20px 60px;
     }
 
     blockquote {
-        font-size: 24px;
+        font-size: 20px;
+    }
+
+    .post-item {
+        grid-template-columns: 1fr;
+    }
+
+    .post-item .post-date,
+    .post-item .post-num {
+        text-align: left;
     }
 }
 
-.post-item h3 {
-  transition: transform 0.2s ease, color 0.2s ease;
+/* ===============================
+   POST BODY (rendered markdown)
+================================ */
+
+.post-body {
+  font-family: var(--f-body);
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--text-secondary);
+  max-width: 640px;
 }
 
-.post-item:hover h3 {
-  transform: translateX(6px);
-  color: var(--accent);
+.post-body p  { margin-bottom: 20px; }
+
+.post-body h2 {
+  font-family: var(--f-stamp);
+  font-size: 18px;
+  color: var(--text-primary);
+  margin: 40px 0 14px;
+  letter-spacing: 0.05em;
+  border-bottom: 1px dashed var(--divider);
+  padding-bottom: 8px;
+}
+
+.post-body blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 12px 20px;
+  margin: 24px 0;
+  background: var(--bg-secondary);
+  transform: rotate(-0.4deg);
+  font-style: italic;
+  color: var(--text-primary);
+  font-size: 16px;
+}
+
+.post-body a       { color: var(--accent); }
+.post-body a:hover { color: var(--accent-soft); }
+
+
+/* ===============================
+   THEME TOGGLE BUTTON
+================================ */
+
+.theme-toggle {
+    position: fixed;
+    top: 24px;
+    right: max(24px, calc(50% - 360px - 80px));
+    z-index: 200;
+    background: var(--text-primary);
+    color: var(--bg-main);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transform: rotate(15deg);
+    transition: transform 0.2s, background 0.3s, color 0.3s;
+}
+
+.theme-toggle:hover {
+    transform: rotate(-15deg) scale(1.1);
 }

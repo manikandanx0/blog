@@ -1,19 +1,23 @@
-import { Playfair_Display } from "next/font/google";
-import { Source_Serif_4 } from "next/font/google";
-import { Noto_Serif_JP } from "next/font/google";
-import { Google_Sans_Code } from "next/font/google";
-
+import { Playfair_Display, Special_Elite, Courier_Prime, Space_Mono, Noto_Serif_JP } from "next/font/google";
+import ThemeToggle from "@/components/ThemeToggle";
 import "./globals.css";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
   variable: "--font-display",
 });
 
-const sourceSerif = Source_Serif_4({
+const specialElite = Special_Elite({
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400"],
+  variable: "--font-stamp",
+});
+
+const courierPrime = Courier_Prime({
+  subsets: ["latin"],
+  weight: ["400", "700"],
   style: ["normal", "italic"],
   variable: "--font-body",
 });
@@ -24,24 +28,28 @@ const notoSerifJP = Noto_Serif_JP({
   variable: "--font-jp",
 });
 
-const googleSansCode = Google_Sans_Code({
+const spaceMono = Space_Mono({
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
   variable: "--font-mono",
 });
 
 export const metadata = {
-  title: "Mani's Personal Archive",
-  description: "Write for the sake of sanity",
+  title: "Mani's Archive",
+  description: "Thoughts. Systems. Obsessions.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${sourceSerif.variable} ${notoSerifJP.variable} ${googleSansCode.variable}`}
+      className={`${playfair.variable} ${specialElite.variable} ${courierPrime.variable} ${spaceMono.variable} ${notoSerifJP.variable}`}
     >
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <ThemeToggle />
+        {children}
+      </body>
     </html>
   );
 }

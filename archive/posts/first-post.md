@@ -2,7 +2,7 @@
 title: "Building My Blog with Next.js"
 date: "2026-02-20"
 tags: ["nextjs", "blog", "setup"]
-cover: "/images/posts/first-post/cover.jpg"
+cover: "/images/posts/first-post/cover.png"
 ---
 
 This is the first post on my new blog. I wanted something simple, fast, and fully static.
@@ -14,9 +14,12 @@ This is the first post on my new blog. I wanted something simple, fast, and full
 - Perfect for GitHub Pages
 
 ## Basic page example
-
 ```jsx
 export default function Page() {
   return <h1>Hello Blog</h1>;
 }
 ```
+
+## Adding images
+
+<img src="/images/posts/first-post/cover.png" alt="Cover image" />
