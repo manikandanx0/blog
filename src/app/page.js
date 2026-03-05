@@ -1,16 +1,29 @@
 import Link from "next/link";
-import { getAllPosts } from "@/lib/posts";
+import { getPostsBySection } from "@/lib/posts";
 
 export const metadata = {
   title: "Mani's Archive",
   description: "Thoughts. Systems. Obsessions.",
 };
 
-export default function HomePage() {
-  const posts = getAllPosts();
+// Section display config — add new sections here as you create them
+const SECTION_CONFIG = {
+  posts:    { label: "Writing",          poemStyle: false },
+  poems:    { label: "Poems",            poemStyle: true  },
+  leetcode: { label: "LeetCode",         poemStyle: false },
+  japanese: { label: "日本語 Notes",      poemStyle: false },
+};
 
-  const writings = posts.filter((p) => p.slug.startsWith("posts/"));
-  const poems = posts.filter((p) => p.slug.startsWith("poems/"));
+function getSectionLabel(section) {
+  return SECTION_CONFIG[section]?.label ?? section.charAt(0).toUpperCase() + section.slice(1);
+}
+
+function isPoemStyle(section) {
+  return SECTION_CONFIG[section]?.poemStyle ?? false;
+}
+
+export default function HomePage() {
+  const sections = getPostsBySection();
 
   return (
     <main className="container">
@@ -30,62 +43,37 @@ export default function HomePage() {
         <div className="divider-dash" style={{ marginTop: "20px" }} />
       </header>
 
-      {/* ── POSTS ── */}
-      <section className="section">
-        <div className="section-label">Writing</div>
+      {/* ── SECTIONS ── */}
+      {sections.map((group, gi) => (
+        <section key={group.section} className="section">
 
-        {writings.length === 0 && (
-          <p className="meta">No posts yet.</p>
-        )}
+          {/* ornament between sections */}
+          {gi > 0 && (
+            <div style={{
+              textAlign: "center",
+              fontFamily: "var(--f-stamp)",
+              fontSize: "13px",
+              letterSpacing: "0.3em",
+              color: "var(--text-muted)",
+              margin: "0 0 48px",
+              opacity: 0.5,
+            }}>— ✦ —</div>
+          )}
 
-        {writings.map((post, i) => (
-          <article key={post.slug} className={`post-item${i === 0 ? " featured" : ""}`}>
-            <div>
-              <div className="post-category">{post.slug.split("/")[0]}</div>
-              <Link href={`/${post.slug}`}>
-                <h3>{post.title}</h3>
-              </Link>
-              {post.tags?.length > 0 && (
-                <div className="tags">
-                  {post.tags.map((tag) => (
-                    <span key={tag} className="tag">#{tag}</span>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div>
-              <span className="post-num">#{String(i + 1).padStart(2, "0")}</span>
-              <span className="post-date">
-                {new Date(post.date).toLocaleDateString("en-GB", {
-                  day: "2-digit", month: "short", year: "numeric",
-                })}
-              </span>
-            </div>
-          </article>
-        ))}
-      </section>
+          <div className="section-label">{getSectionLabel(group.section)}</div>
 
-      {/* ── POEMS ── */}
-      {poems.length > 0 && (
-        <section className="section">
-          <div className="ornament" style={{
-            textAlign: "center",
-            fontFamily: "var(--f-stamp)",
-            fontSize: "13px",
-            letterSpacing: "0.3em",
-            color: "var(--text-muted)",
-            margin: "48px 0",
-            opacity: 0.5,
-          }}>— ✦ —</div>
-
-          <div className="section-label">Poems</div>
-
-          {poems.map((post, i) => (
-            <article key={post.slug} className="post-item" style={{ borderBottomStyle: "dashed" }}>
+          {group.items.map((post, i) => (
+            <article
+              key={post.slug}
+              className={`post-item${i === 0 && !isPoemStyle(group.section) ? " featured" : ""}`}
+              style={isPoemStyle(group.section) ? { borderBottomStyle: "dashed" } : {}}
+            >
               <div>
-                <div className="post-category">{post.slug.split("/")[0]}</div>
+                <div className="post-category">{group.section}</div>
                 <Link href={`/${post.slug}`}>
-                  <h3 style={{ fontStyle: "italic", fontWeight: 400 }}>{post.title}</h3>
+                  <h3 style={isPoemStyle(group.section) ? { fontStyle: "italic", fontWeight: 400 } : {}}>
+                    {post.title}
+                  </h3>
                 </Link>
                 {post.tags?.length > 0 && (
                   <div className="tags">
@@ -96,7 +84,9 @@ export default function HomePage() {
                 )}
               </div>
               <div>
-                <span className="post-num">#p{i + 1}</span>
+                <span className="post-num">
+                  {isPoemStyle(group.section) ? `#p${i + 1}` : `#${String(i + 1).padStart(2, "0")}`}
+                </span>
                 <span className="post-date">
                   {new Date(post.date).toLocaleDateString("en-GB", {
                     day: "2-digit", month: "short", year: "numeric",
@@ -106,7 +96,7 @@ export default function HomePage() {
             </article>
           ))}
         </section>
-      )}
+      ))}
 
       {/* ── FOOTER ── */}
       <footer className="divider-heavy" style={{ marginTop: "80px" }}>
